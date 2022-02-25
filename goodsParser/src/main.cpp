@@ -28,7 +28,7 @@ const int TYPE= 1;
 #define GLOBUS 0
 #define VPROK  1
 #define PLATYPUS  2
-//#define TYPE 1
+#define TYPE 1
 
 /*
  * globus totalTime=26:20
@@ -41,18 +41,18 @@ int main(int argc, char *argv[]) {
 
 	//std::string s, s1;
 
-#if TYPE==GLOBUS
+#if TYPE==GLOBUS && defined(TYPE)
 	Globus ob;
-#elif TYPE==VPROK
+#elif TYPE==VPROK && defined(TYPE)
 	Vprok ob;
-#elif TYPE==PLATYPUS
+#elif TYPE==PLATYPUS && defined(TYPE)
 	Platypus ob;
 #else
 #error unknown TYPE
 #endif
 
-//	printl(ob.m_className);
-//	return 0;
+	printl(ob.m_className);
+	return 0;
 
 
 	ob.init(useLocalFiles,useManyThreads);

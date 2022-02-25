@@ -20,6 +20,10 @@ GoodsParser::GoodsParser(std::string const &stage0url,
 	m_stage0url = stage0url;
 	m_pageAdd = pageAdd;
 	m_className = className;
+	std::transform(m_className.begin(), m_className.end(), m_className.begin(), [](unsigned char c) {
+		return std::tolower(c);
+	});
+
 	g_mkdir(storeFolder.c_str(), 0);
 }
 

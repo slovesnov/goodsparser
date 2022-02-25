@@ -10,7 +10,7 @@
 
 #include "Vprok.h"
 
-Vprok::Vprok() : GoodsParser( "https://www.vprok.ru/catalog","","vprok") {
+Vprok::Vprok() : GoodsParser( "https://www.vprok.ru/catalog","",__func__) {
 }
 
 void Vprok::parse0(const std::string &s) {

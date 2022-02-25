@@ -12,7 +12,7 @@
 #include <cassert>
 
 Globus::Globus() :
-		GoodsParser( "https://online.globus.ru", "?PAGEN_1=","globus") {
+		GoodsParser( "https://online.globus.ru", "?PAGEN_1=",__func__) {
 	const std::string ti[] =
 			{ "catalog-section__item__title", "item-price__rub", "item-price__kop",
 					"item-price__additional item-price__additional--solo" };
