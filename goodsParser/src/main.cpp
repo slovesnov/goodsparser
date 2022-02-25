@@ -28,7 +28,7 @@ const int TYPE= 1;
 #define GLOBUS 0
 #define VPROK  1
 #define PLATYPUS  2
-#define TYPE 1
+#define TYPE 0
 
 /*
  * globus totalTime=26:20
@@ -51,8 +51,8 @@ int main(int argc, char *argv[]) {
 #error unknown TYPE
 #endif
 
-	printl(ob.m_className);
-	return 0;
+//	printl(ob.m_className);
+//	return 0;
 
 
 	ob.init(useLocalFiles,useManyThreads);

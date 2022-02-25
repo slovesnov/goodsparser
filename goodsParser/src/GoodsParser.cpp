@@ -46,17 +46,9 @@ DownloadFunctionPtr GoodsParser::getStageFunction(int stage){
 
 void GoodsParser::stage1() {
 	int i;
-	auto begin = clock();
 	std::string s;
-	m_atom=0;
-	m_upper=m_vpages.size();
-	m_vthreads.clear();
-	for (i = 0; i < m_threads; ++i) {
-		m_vthreads.push_back(std::thread(&GoodsParser::th1,this,i));
-	}
-	for (auto& a : m_vthreads){
-		a.join();
-	}
+
+	st(1);
 
 //	std::sort(vp.begin(),vp.end(),[](auto& a,auto&b){
 //		return a.second<b.second;
@@ -71,27 +63,11 @@ void GoodsParser::stage1() {
 		}
 	}
 
-	println("pages=%lld %s",m_vgoods.size(),timeString(begin,true).c_str())
+	println("pages=%lld %s",m_vgoods.size(),timeString(m_begin,true).c_str())
 }
 
 void GoodsParser::stage2() {
-	int i;
-	auto begin = clock();
-	m_atom=0;
-
-//	upper=0;
-//	for (i = 0; i < 3; ++i) {
-//		upper=vp[i].second;
-//	}
-
-	m_upper=m_vgoods.size();
-	m_vthreads.clear();
-	for (i = 0; i < m_threads; ++i) {
-		m_vthreads.push_back(std::thread(&GoodsParser::th2,this,i));
-	}
-	for (auto& a : m_vthreads){
-		a.join();
-	}
+	st(2);
 
 	std::set<std::string> set;
 	for(auto& a:m_vgoods){
@@ -120,36 +96,42 @@ void GoodsParser::stage2() {
 
 	mzipFile(m_className+b);
 
-	printl("goods="+std::to_string(set.size())+" totalTime="+secondsToString(begin));
+	printl("goods="+std::to_string(set.size())+" totalTime="+secondsToString(m_begin));
 }
 
-void GoodsParser::th1(int t) {
+void GoodsParser::th(int stage,int t) {
 	int i;
 	std::string s;
 	while ((i = m_atom++) < m_upper ) {
-		auto begin=clock();
-		auto& v=m_vpages[i];
-		v.second = countPages(getStageFunction(1)(v.first));
-		s = (m_useManyThreads ? "t" + std::to_string(t) + " " : "")
-		 //+v.first+" "
-		 + format("category=%2d/%lld pages=%3d", i, m_vpages.size(), v.second) + " "
-				+ timeString(begin);
-		printzn(s)
+		m_begin = clock();
+		if (stage == 1) {
+			auto &v = m_vpages[i];
+			v.second = countPages(getStageFunction(1)(v.first));
+			s = format("category=%2d/%lld pages=%3d", i, m_vpages.size(),
+					v.second);
+		} else {
+			auto &v = m_vgoods[i];
+			v.second = parseGoods(getStageFunction(2)(v.first));
+			s = format("%d/%d goods=%d", i, m_upper,
+					countOccurence(v.second, '\n'));
+		}
+		printzn(
+				(m_useManyThreads ? "t" + std::to_string(t) + " " : "") + s
+						+ " " + timeString(m_begin))
 		//printl(s)
 	}
 }
 
-void GoodsParser::th2(int t) {
-	int i;
-	std::string s;
-	while ((i = m_atom++) < m_upper) {
-		auto begin = clock();
-		auto &a = m_vgoods[i];
-		a.second = parseGoods(getStageFunction(2)(a.first));
-		s = (m_useManyThreads ? "t" + std::to_string(t) + " " : "")
-				+ format("%d/%d goods=%d", i, m_upper,
-						countOccurence(a.second, '\n')) + " " + timeString(begin);
-		printzn(s)
-		//break;
+void GoodsParser::st(int stage) {
+	m_begin = clock();
+	m_atom = 0;
+	m_upper = stage == 1 ? m_vpages.size() : m_vgoods.size();
+	m_vthreads.clear();
+	for (int i = 0; i < m_threads; ++i) {
+		m_vthreads.push_back(std::thread(&GoodsParser::th, this, stage, i));
 	}
+	for (auto &a : m_vthreads) {
+		a.join();
+	}
+
 }

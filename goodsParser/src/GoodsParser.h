@@ -34,6 +34,7 @@ public:
 	std::atomic_int m_atom;
 	int m_upper;
 	VGoodData m_vgoods;
+	clock_t m_begin;
 
 	GoodsParser(std::string const &stage0url, std::string const &pageAdd,
 			std::string const &className);
@@ -43,13 +44,13 @@ public:
 	void stage0();
 	void stage1();
 	void stage2();
+	void th(int stage,int t);
+	void st(int stage);
 
 	virtual void parse0(std::string const&)=0;
-
-	void th1(int t);
-	void th2(int t);
 	virtual int countPages(std::string const&)=0;
 	virtual std::string parseGoods(std::string const& s)=0;
+
 };
 
 #endif /* GOODSPARSER_H_ */
