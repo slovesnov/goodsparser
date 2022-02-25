@@ -110,14 +110,14 @@ std::string spanClass(std::string const &s) {
 	return "<span class=\"" + s + "\">";
 }
 
-TagData getTagContent(std::string const &s, size_t startpos,
-		std::string const &tag) {
-	auto p = s.find(tag, startpos);
+TagData searchSubstring(std::string const &s, size_t startpos,
+		std::string const &begin, const char end/*='<'*/) {
+	auto p = s.find(begin, startpos);
 	if (p == std::string::npos) {
 		return {false};
 	}
-	p += tag.length();
-	auto p1 = s.find('<', p);
+	p += begin.length();
+	auto p1 = s.find(end, p);
 	assert(p1 != std::string::npos);
 	return {true,s.substr(p, p1 - p),p1+1};
 }
@@ -128,7 +128,7 @@ VTagData getTagsContent(std::string const &s, size_t startpos,
 	TagData t;
 	size_t p = startpos;
 	for (auto const &ta : vtag) {
-		t = getTagContent(s, p, ta);
+		t = searchSubstring(s, p, ta);
 		v.push_back(t);
 		if (!t.found) {
 			break;

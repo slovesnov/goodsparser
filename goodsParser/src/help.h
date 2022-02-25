@@ -32,17 +32,19 @@ using VTagData = std::vector<TagData>;
  * downloadFileInner1, downloadFileInner2 return same result for both urls[0] & urls[1]
 */
 
-std::pair<std::string,bool> downloadFileInner(std::string const& url);
+std::pair<std::string, bool> downloadFileInner(std::string const &url);
 //std::pair<std::string,bool> downloadFileInner1(std::string const& url);
 //std::pair<std::string,bool> downloadFileInner2(std::string const& url);
 //std::string downloadFile(std::string const& url);
-std::string downloadFileAndSaveLocally(std::string const& url);
-std::string getLocalFileName(std::string const& url);
-std::string readLocalFile(std::string const& url);
-std::string spanClass(std::string const& s);
-TagData getTagContent(std::string const& s,size_t startpos,std::string const& tag);
-VTagData getTagsContent(std::string const& s,size_t startpos,VString const& vtag);
-std::string timeString(clock_t begin,bool total=false);
+std::string downloadFileAndSaveLocally(std::string const &url);
+std::string getLocalFileName(std::string const &url);
+std::string readLocalFile(std::string const &url);
+std::string spanClass(std::string const &s);
+TagData searchSubstring(std::string const &s, size_t startpos,
+		std::string const &begin, const char end = '<');
+VTagData getTagsContent(std::string const &s, size_t startpos,
+		VString const &vtag);
+std::string timeString(clock_t begin, bool total = false);
 
 void init();
 void deinit();
