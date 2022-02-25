@@ -11,7 +11,7 @@
 #include "Platypus.h"
 
 Platypus::Platypus() :
-		GoodsParser("platypus", "https://www.utkonos.ru/cat", "/page/") {
+		GoodsParser( "https://www.utkonos.ru/cat", "/page/","platypus") {
 }
 
 void Platypus::parse0(const std::string &_s) {

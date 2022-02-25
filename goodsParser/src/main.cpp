@@ -10,13 +10,25 @@
 
 #include "aslov.h"
 #include "Globus.h"
+#include "Vprok.h"
 #include "Platypus.h"
 
 //useLocalFiles for stages
 const VBool useLocalFiles = {1,1,1};
 //const VBool useLocalFiles = {0,0,0};
 const bool useManyThreads=1;
-#define GLOBUS 1
+
+/*
+const int GLOBUS = 0;
+const int VPROK = 1;
+const int PLATYPUS = 2;
+const int TYPE= 1;
+*/
+
+#define GLOBUS 0
+#define VPROK  1
+#define PLATYPUS  2
+//#define TYPE 1
 
 /*
  * globus totalTime=26:20
@@ -27,14 +39,21 @@ int main(int argc, char *argv[]) {
 	//aslovInit(argv);
 	init();
 
-	std::string s, s1;
-	VTagData vt;
+	//std::string s, s1;
 
-#if GLOBUS==1
+#if TYPE==GLOBUS
 	Globus ob;
-#else
+#elif TYPE==VPROK
+	Vprok ob;
+#elif TYPE==PLATYPUS
 	Platypus ob;
+#else
+#error unknown TYPE
 #endif
+
+//	printl(ob.m_className);
+//	return 0;
+
 
 	ob.init(useLocalFiles,useManyThreads);
 
