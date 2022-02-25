@@ -11,13 +11,8 @@
 #include "Globus.h"
 #include <cassert>
 
-const std::string t2 = "data-pagecount=\"";
-
-Globus::Globus() {
-	m_stage0url="https://online.globus.ru";
-	m_pageAdd="?PAGEN_1=";
-	m_className="globus";
-
+Globus::Globus() :
+		GoodsParser("globus", "https://online.globus.ru", "?PAGEN_1=") {
 	const std::string ti[] =
 			{ "catalog-section__item__title", "item-price__rub", "item-price__kop",
 					"item-price__additional item-price__additional--solo" };
@@ -38,9 +33,10 @@ void Globus::parse0(const std::string &s) {
 
 int Globus::countPages(const std::string &s) {
 //	return 1;
-	auto p = s.find(t2, 0);
+	const std::string t = "data-pagecount=\"";
+	auto p = s.find(t, 0);
 	assert(p!=std::string::npos);
-	return atoi(s.c_str() + p + t2.length());
+	return atoi(s.c_str() + p + t.length());
 }
 
 std::string Globus::parseGoods(const std::string &s) {

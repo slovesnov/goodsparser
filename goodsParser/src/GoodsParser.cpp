@@ -15,7 +15,11 @@
 #include "aslov.h"
 #include "help.h"
 
-GoodsParser::GoodsParser() {
+GoodsParser::GoodsParser(std::string const &className,
+		std::string const &stage0url, std::string const &pageAdd) {
+	m_className = className;
+	m_stage0url = stage0url;
+	m_pageAdd = pageAdd;
 	g_mkdir(storeFolder.c_str(), 0);
 }
 

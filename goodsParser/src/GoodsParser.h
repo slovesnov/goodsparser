@@ -35,7 +35,7 @@ public:
 	int m_upper;
 	VGoodData m_vgoods;
 
-	GoodsParser();
+	GoodsParser(std::string const& className,std::string const& stage0url,std::string const& pageAdd);
 	void init(VBool useLocalFiles,bool useManyThreads);
 	DownloadFunctionPtr getStageFunction(int stage);
 

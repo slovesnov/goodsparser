@@ -10,10 +10,8 @@
 
 #include "Platypus.h"
 
-Platypus::Platypus() {
-	m_stage0url="https://www.utkonos.ru/cat";
-	m_pageAdd="/page/";
-	m_className="platypus";
+Platypus::Platypus() :
+		GoodsParser("platypus", "https://www.utkonos.ru/cat", "/page/") {
 }
 
 void Platypus::parse0(const std::string &_s) {
