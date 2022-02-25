@@ -153,7 +153,7 @@ void deinit() {
 
 
 //many modification https://cpp.hotexamples.com/examples/-/-/zipOpenNewFileInZip/cpp-zipopennewfileinzip-function-examples.html
-void addToZip(const char* archivePath, const char* path, const char* content, int length){
+void addToZip(const char* archivePath, const char* path, const char* content, uint32_t length){
 	int result = ZIP_OK;
 
 	//int appendMode = fileExists(archivePath) ? APPEND_STATUS_ADDINZIP : APPEND_STATUS_CREATE;
@@ -182,7 +182,7 @@ void addToZip(const char* archivePath, const char* path, const char* content, in
 		return;
 	}
 
-	result = zipWriteInFileInZip(archive, content, static_cast<unsigned int>(length));
+	result = zipWriteInFileInZip(archive, content, length);
 	if (result != ZIP_OK)
 	{
 		printel("Unable to write file data to zip archive");

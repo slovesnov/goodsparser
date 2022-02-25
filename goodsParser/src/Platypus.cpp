@@ -62,7 +62,7 @@ void Platypus::parse0(const std::string &_s) {
 			p1 = s.find('"', p);
 			s1=s.substr(p, p1 - p);
 			assert(startsWith(s1, cat));
-			vp.push_back({m_stage0url+s1.substr(cat.length()),0});
+			m_vpages.push_back({m_stage0url+s1.substr(cat.length()),0});
 			p = p1 + 1;
 		}
 	}

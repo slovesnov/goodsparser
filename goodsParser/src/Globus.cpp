@@ -22,7 +22,7 @@ Globus::Globus() {
 			{ "catalog-section__item__title", "item-price__rub", "item-price__kop",
 					"item-price__additional item-price__additional--solo" };
 	for(auto&a:ti){
-		tagVI.push_back(spanClass(a));
+		m_vtag.push_back(spanClass(a));
 	}
 
 }
@@ -34,7 +34,7 @@ void Globus::parse0(const std::string &s) {
 		p += ta1.length();
 		p1 = s.find('"', p);
 		assert(p1!=std::string::npos);
-		vp.push_back({m_stage0url+s.substr(p, p1 - p),0});
+		m_vpages.push_back({m_stage0url+s.substr(p, p1 - p),0});
 		p=p1+1;
 	}
 }
@@ -51,7 +51,7 @@ std::string Globus::parseGoods(const std::string &s) {
 	std::string s1,s2;
 	VTagData vt;
 	size_t p = 0;
-	while ((vt = getTagsContent(s, p, tagVI))[0].found) {
+	while ((vt = getTagsContent(s, p, m_vtag))[0].found) {
 		i = 0;
 		for (auto &a : vt) {
 			assert(a.found);
@@ -66,7 +66,7 @@ std::string Globus::parseGoods(const std::string &s) {
 			} else if (i == 3) {
 				s1 = trim(s1);
 			}
-			s2+= tagVIPrefix[i] +s1;
+			s2+= m_vtagPrefix[i] +s1;
 			i++;
 		}
 		s2+= "\n";

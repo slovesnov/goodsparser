@@ -15,8 +15,8 @@
 
 class Globus: public GoodsParser {
 public:
-	const VString tagVIPrefix={""," ",".",localeToUtf8("руб. ")};
-	VString tagVI;
+	const VString m_vtagPrefix={""," ",".",localeToUtf8("руб. ")};
+	VString m_vtag;
 
 	Globus();
 	void parse0(std::string const& s)override;

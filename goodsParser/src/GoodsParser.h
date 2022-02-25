@@ -21,9 +21,6 @@
 using VBool = std::vector<bool>;
 using DownloadFunctionPtr = std::string (*)(std::string const&);
 
-//struct GoodData{
-//	std::string url,data;
-//};
 using VGoodData = std::vector<PairStringString>;
 
 class GoodsParser {
@@ -31,14 +28,12 @@ public:
 	VBool m_useLocalFiles;
 	bool m_useManyThreads;
 	std::string m_stage0url,m_pageAdd,m_className;
-
-	//rename
-	std::vector<std::pair<std::string,int>> vp;
-	std::vector<std::thread> vth;
-	int threads;
-	std::atomic_int atom;
-	int upper;
-	VGoodData vgoods;
+	std::vector<std::pair<std::string,int>> m_vpages;
+	std::vector<std::thread> m_vthreads;
+	int m_threads;
+	std::atomic_int m_atom;
+	int m_upper;
+	VGoodData m_vgoods;
 
 	GoodsParser();
 	void init(VBool useLocalFiles,bool useManyThreads);

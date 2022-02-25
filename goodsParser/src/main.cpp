@@ -13,8 +13,8 @@
 #include "Platypus.h"
 
 //useLocalFiles for stages
-//const VBool useLocalFiles = {1,1,1};
-const VBool useLocalFiles = {0,0,0};
+const VBool useLocalFiles = {1,1,1};
+//const VBool useLocalFiles = {0,0,0};
 const bool useManyThreads=1;
 #define GLOBUS 1
 
@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 
 	ob.init(useLocalFiles,useManyThreads);
 
-	println("%s threads=%d useLocalFiles={%s} ",ob.m_className.c_str(),ob.threads,joinV(useLocalFiles).c_str())
+	println("%s threads=%d useLocalFiles={%s} ",ob.m_className.c_str(),ob.m_threads,joinV(useLocalFiles).c_str())
 
 	//load categories
 	ob.stage0();

@@ -11,6 +11,10 @@
 #ifndef PLATYPUS_H_
 #define PLATYPUS_H_
 
+/* Note 25feb22 site https://www.utkonos.ru uses scripts for loading
+ * goods so it's not possible at the moment load goods from this site
+ */
+
 #include "GoodsParser.h"
 
 class Platypus: public GoodsParser {
