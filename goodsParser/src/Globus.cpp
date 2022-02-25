@@ -28,14 +28,11 @@ Globus::Globus() {
 }
 
 void Globus::parse0(const std::string &s) {
-	const std::string ta1 = "class=\"sub_hover\"><a href=\"";
-	size_t p = 0,p1;
-	while ((p = s.find(ta1, p )) != std::string::npos) {
-		p += ta1.length();
-		p1 = s.find('"', p);
-		assert(p1!=std::string::npos);
-		m_vpages.push_back({m_stage0url+s.substr(p, p1 - p),0});
-		p=p1+1;
+	TagData t;
+	size_t p = 0;
+	while ((t = searchSubstring(s, p, "class=\"sub_hover\"><a href=\"",'"' )).found ) {
+		m_vpages.push_back({m_stage0url+t.content,0});
+		p=t.pos;
 	}
 }
 
