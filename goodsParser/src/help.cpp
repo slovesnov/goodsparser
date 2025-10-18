@@ -112,6 +112,12 @@ std::string spanClass(std::string const &s) {
 
 TagData searchSubstring(std::string const &s, size_t startpos,
 		std::string const &begin, const char end/*='<'*/) {
+	return searchSubstring(s, startpos,
+			begin, std::string(1, end));
+}
+
+TagData searchSubstring(std::string const &s, size_t startpos,
+		std::string const &begin, std::string const & end) {
 	auto p = s.find(begin, startpos);
 	if (p == std::string::npos) {
 		return {false};
@@ -121,6 +127,7 @@ TagData searchSubstring(std::string const &s, size_t startpos,
 	assert(p1 != std::string::npos);
 	return {true,s.substr(p, p1 - p),p1+1};
 }
+
 
 VTagData getTagsContent(std::string const &s, size_t startpos,
 		VString const &vtag) {
@@ -153,7 +160,8 @@ void deinit() {
 
 
 //many modification https://cpp.hotexamples.com/examples/-/-/zipOpenNewFileInZip/cpp-zipopennewfileinzip-function-examples.html
-void addToZip(const char* archivePath, const char* path, const char* content, uint32_t length){
+void addToZip(const char *archivePath, const char *path, const char *content,
+		uint32_t length) {
 	int result = ZIP_OK;
 
 	//int appendMode = fileExists(archivePath) ? APPEND_STATUS_ADDINZIP : APPEND_STATUS_CREATE;
@@ -165,47 +173,45 @@ void addToZip(const char* archivePath, const char* path, const char* content, ui
 	time_t rawtime;
 	time(&rawtime);
 	zip_fileinfo zfi;
-	zfi.dosDate=0;
-	zfi.tmz_date=*localtime(&rawtime);
-	zfi.internal_fa=0;
-	zfi.external_fa=0;
+	zfi.dosDate = 0;
+	zfi.tmz_date = *localtime(&rawtime);
+	zfi.internal_fa = 0;
+	zfi.external_fa = 0;
 
-	result = zipOpenNewFileInZip4(
-    		archive, path, &zfi,
-    		nullptr, 0, nullptr, 0, nullptr, Z_DEFLATED, Z_DEFAULT_COMPRESSION,
-    		0, -MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY, NULL, 0, 0, 0);
+	result = zipOpenNewFileInZip4(archive, path, &zfi, nullptr, 0, nullptr, 0,
+			nullptr, Z_DEFLATED, Z_DEFAULT_COMPRESSION, 0, -MAX_WBITS,
+			DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY, NULL, 0, 0, 0);
 
-
-	if (result != ZIP_OK)
-	{
-		printel("Unable to add new file to zip archive");
+	if (result != ZIP_OK) {
+		printel("Unable to add new file to zip archive")
+		;
 		return;
 	}
 
 	result = zipWriteInFileInZip(archive, content, length);
-	if (result != ZIP_OK)
-	{
-		printel("Unable to write file data to zip archive");
+	if (result != ZIP_OK) {
+		printel("Unable to write file data to zip archive")
+		;
 		return;
 	}
 	result = zipCloseFileInZip(archive);
-	if (result != ZIP_OK)
-	{
-		printel("Unable to close file in zip archive");
+	if (result != ZIP_OK) {
+		printel("Unable to close file in zip archive")
+		;
 		return;
 	}
 	result = zipClose(archive, 0 /* global comment */);
-	if (result != ZIP_OK)
-	{
-		printel("Unable to close zip archive");
+	if (result != ZIP_OK) {
+		printel("Unable to close zip archive")
+		;
 		return;
 	}
 }
 
-void mzipFile(std::string const &filepath){
-	std::string s=fileGetContent(filepath, 1);
-	auto zip=getFileInfo(filepath, FILEINFO::SHORT_NAME)+".zip";
-	auto pathInsizeZip=getFileInfo(filepath, FILEINFO::NAME);
+void mzipFile(std::string const &filepath) {
+	std::string s = fileGetContent(filepath, 1);
+	auto zip = getFileInfo(filepath, FILEINFO::SHORT_NAME) + ".zip";
+	auto pathInsizeZip = getFileInfo(filepath, FILEINFO::NAME);
 	addToZip(zip.c_str(), pathInsizeZip.c_str(), s.c_str(), s.length());
 }
 

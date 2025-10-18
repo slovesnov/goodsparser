@@ -14,6 +14,7 @@
 #include "GoodsParser.h"
 #include "aslov.h"
 #include "help.h"
+#include "Globus.h"
 
 GoodsParser::GoodsParser(std::string const &stage0url,
 		std::string const &pageAdd, std::string const &className) {
@@ -27,9 +28,11 @@ GoodsParser::GoodsParser(std::string const &stage0url,
 	g_mkdir(storeFolder.c_str(), 0);
 }
 
-void GoodsParser::init(VBool useLocalFiles, bool useManyThreads){
+void GoodsParser::init(const bool useLocalFiles[], bool useManyThreads){
 	m_useManyThreads=useManyThreads;
-	m_useLocalFiles=useLocalFiles;
+	for(int i=0;i<LOCAL_SIZE;i++){
+		m_useLocalFiles[i]=useLocalFiles[i];
+	}
 	m_threads = useManyThreads ? getNumberOfCores(): 1;
 }
 
@@ -107,6 +110,7 @@ void GoodsParser::th(int stage,int t) {
 		if (stage == 1) {
 			auto &v = m_vpages[i];
 			v.second = countPages(getStageFunction(1)(v.first));
+			printl(v.first,v.second)
 			s = format("category=%2d/%lld pages=%3d", i, m_vpages.size(),
 					v.second);
 		} else {
@@ -134,4 +138,9 @@ void GoodsParser::st(int stage) {
 		a.join();
 	}
 
+}
+
+bool GoodsParser::test() {
+	auto p=dynamic_cast<Globus*> (this);
+	return p!=nullptr;
 }

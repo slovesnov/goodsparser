@@ -42,6 +42,8 @@ std::string readLocalFile(std::string const &url);
 std::string spanClass(std::string const &s);
 TagData searchSubstring(std::string const &s, size_t startpos,
 		std::string const &begin, const char end = '<');
+TagData searchSubstring(std::string const &s, size_t startpos,
+		std::string const &begin, std::string const & end);
 VTagData getTagsContent(std::string const &s, size_t startpos,
 		VString const &vtag);
 std::string timeString(clock_t begin, bool total = false);

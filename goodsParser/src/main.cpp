@@ -14,8 +14,16 @@
 #include "Platypus.h"
 
 //useLocalFiles for stages
-const VBool useLocalFiles = {1,1,1};
-//const VBool useLocalFiles = {0,0,0};
+#define LOCAL_TYPE 1
+
+#if LOCAL_TYPE==0
+const bool useLocalFiles[] = {0,0,0};
+#elif LOCAL_TYPE==1
+const bool useLocalFiles[] = {1,1,1};
+#else
+//other
+const bool useLocalFiles[] = {0,0,0};
+#endif
 const bool useManyThreads=1;
 
 /*
@@ -25,10 +33,11 @@ const int PLATYPUS = 2;
 const int TYPE= 1;
 */
 
-#define GLOBUS 0
-#define VPROK  1
-#define PLATYPUS  2
-#define TYPE 0
+//#if TYPE==0 //true if TYPE is not defined so start from 1
+#define GLOBUS 1
+#define VPROK  2
+#define PLATYPUS 3
+#define TYPE 2
 
 /*
  * globus totalTime=26:20
@@ -41,32 +50,32 @@ int main(int argc, char *argv[]) {
 
 	//std::string s, s1;
 
-#if TYPE==GLOBUS && defined(TYPE)
+#if TYPE==GLOBUS
 	Globus ob;
-#elif TYPE==VPROK && defined(TYPE)
+#elif TYPE==VPROK
 	Vprok ob;
-#elif TYPE==PLATYPUS && defined(TYPE)
+#elif TYPE==PLATYPUS
 	Platypus ob;
 #else
 #error unknown TYPE
 #endif
 
-//	printl(ob.m_className);
+//	printl(ob.test());
 //	return 0;
 
 
 	ob.init(useLocalFiles,useManyThreads);
 
-	println("%s threads=%d useLocalFiles={%s} ",ob.m_className.c_str(),ob.m_threads,joinV(useLocalFiles).c_str())
+	println("%s threads=%d useLocalFiles={%s}",ob.m_className.c_str(),ob.m_threads,JOIN(useLocalFiles).c_str())
 
 	//load categories
 	ob.stage0();
 
 	//load pages
 	ob.stage1();
-
-	//load goods
-	ob.stage2();
+//
+//	//load goods
+//	ob.stage2();
 
 	deinit();
 }

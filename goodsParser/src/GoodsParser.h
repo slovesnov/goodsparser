@@ -18,14 +18,14 @@
 
 #include "help.h"
 
-using VBool = std::vector<bool>;
 using DownloadFunctionPtr = std::string (*)(std::string const&);
 
 using VGoodData = std::vector<PairStringString>;
 
 class GoodsParser {
 public:
-	VBool m_useLocalFiles;
+	static const int LOCAL_SIZE=3;
+	bool m_useLocalFiles[LOCAL_SIZE];
 	bool m_useManyThreads;
 	std::string m_stage0url,m_pageAdd,m_className;
 	std::vector<std::pair<std::string,int>> m_vpages;
@@ -38,7 +38,7 @@ public:
 
 	GoodsParser(std::string const &stage0url, std::string const &pageAdd,
 			std::string const &className);
-	void init(VBool useLocalFiles,bool useManyThreads);
+	void init(const bool useLocalFiles[],bool useManyThreads);
 	DownloadFunctionPtr getStageFunction(int stage);
 
 	void stage0();
@@ -50,6 +50,8 @@ public:
 	virtual void parse0(std::string const&)=0;
 	virtual int countPages(std::string const&)=0;
 	virtual std::string parseGoods(std::string const& s)=0;
+
+	bool test();
 
 };
 

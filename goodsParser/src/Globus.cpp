@@ -19,7 +19,6 @@ Globus::Globus() :
 	for(auto&a:ti){
 		m_vtag.push_back(spanClass(a));
 	}
-
 }
 
 void Globus::parse0(const std::string &s) {
